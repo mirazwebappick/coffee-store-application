@@ -9,6 +9,10 @@ import AddCoffee from "./pages/AddCoffee.jsx";
 import UpdateCoffee from "./pages/UpdateCoffee.jsx";
 import { Toaster } from "react-hot-toast";
 import CoffeeDetails from "./components/CoffeeDetails.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import AuthProvider from "./context/AuthProvider.jsx";
+import User from "./pages/User.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,15 +37,28 @@ const router = createBrowserRouter([
           fetch(`http://localhost:3000/coffees/${params.id}`),
         Component: CoffeeDetails,
       },
+      {
+        path: "signin",
+        Component: Login,
+      },
+      {
+        path: "register",
+        Component: Register,
+      },
+      {
+        path: "user",
+        loader: () => fetch("http://localhost:3000/user"),
+        Component: User,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <>
+    <AuthProvider>
       <RouterProvider router={router} />
       <Toaster position="top-center" reverseOrder={false} />
-    </>
+    </AuthProvider>
   </StrictMode>
 );
